@@ -3756,6 +3756,15 @@ function loadFromObj(obj) {
     fecha: c.fecha || today(),
     empresa: (c.empresa === EMPRESA_PERFUMES || c.empresa === 'perfumes') ? EMPRESA_PERFUMES : EMPRESA_ATCB
   }));
+  // Clientes = agenda global (ambas empresas)
+  try {
+    clients = (clients || []).map(function (c) {
+      if (!c || typeof c !== 'object') return c;
+      var o = Object.assign({}, c);
+      try { delete o.empresa; } catch (e) {}
+      return o;
+    });
+  } catch (eCli) {}
   proveedores = (obj.proveedores || []).map(v => ({
     id: +v.id, nombre: v.nombre || '', documento: v.documento || '',
     direccion: v.direccion || '', telefono: v.telefono || '', email: v.email || '',
@@ -5742,9 +5751,8 @@ function viewCliDetail(id) {
 
 function renderClients() {
   try {
-    const n = (clients || []).filter(function (c) {
-      return !c.empresa || c.empresa === activeEmpresa;
-    }).length;
+    // Clientes compartidos entre las dos empresas (no filtrar por activeEmpresa)
+    const n = (clients || []).length;
     const b = document.getElementById('cliCountBadge');
     if (b) b.textContent = '· ' + n + ' anotado' + (n === 1 ? '' : 's');
   } catch (e) {}
@@ -5816,7 +5824,12 @@ btnSaveCli.onclick = async () => {
   };
   if (editingCliId) {
     const i = clients.findIndex(x => x.id === editingCliId);
-    if (i >= 0) clients[i] = { id: editingCliId, ...data };
+    if (i >= 0) {
+      // Compartido: no atar a una sola empresa
+      const prev = clients[i] || {};
+      clients[i] = { id: editingCliId, ...data };
+      try { delete clients[i].empresa; } catch (e0) {}
+    }
   } else {
     clients.push({ id: nextCliId++, ...data });
   }
