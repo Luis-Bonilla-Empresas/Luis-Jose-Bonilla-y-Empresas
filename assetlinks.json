@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.luis_bonilla_empresas.twa",
+      "sha256_cert_fingerprints": [
+        "CA:D5:CD:AB:3E:43:0D:92:6A:CD:DE:90:ED:CF:51:10:C4:BC:7D:4E:A1:8B:9E:DB:A3:9E:F9:9A:83:A9:CA:9B"
+      ]
+    }
+  }
+]
