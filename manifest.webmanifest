@@ -4,7 +4,7 @@
   "description": "👨‍💼 Luis Bonilla & Empresas",
   "start_url": "./",
   "scope": "./",
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "portrait-primary",
   "background_color": "#081c48",
   "theme_color": "#081c48",
@@ -34,5 +34,9 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "display_override": [
+    "fullscreen",
+    "standalone"
   ]
 }
